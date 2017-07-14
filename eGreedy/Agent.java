@@ -1,9 +1,5 @@
 package agents.myAgents.eGreedy;
 
-/**
- * Created by Daniel on 21.05.2017.
- */
-
 import serialization.SerializableStateObservation;
 import serialization.Types;
 import utils.ElapsedCpuTimer;
@@ -29,13 +25,13 @@ public class Agent extends utils.AbstractPlayer {
     // TODO: 30/06/2017 Might also be better to create a class to keep these all, or use stat summary
     HashMap<Types.ACTIONS, Double> averageIncreasedReward;
     HashMap<Types.ACTIONS, Integer> counter;
-    ArrayList<Types.ACTIONS> actionsNoEscape;
+//    ArrayList<Types.ACTIONS> actionsNoEscape;
     int totalCount;
 
     public Agent(){
         averageIncreasedReward = new HashMap<>();
         counter = new HashMap<>();
-        actionsNoEscape = new ArrayList<>();
+//        actionsNoEscape = new ArrayList<>();
     }
     double prevReward;
 //    Types.ACTIONS prevAction;
@@ -58,12 +54,14 @@ public class Agent extends utils.AbstractPlayer {
         for(Types.ACTIONS action : sso.availableActions)
         {
         //    System.out.println(elapsedTimer.remainingTimeMillis());
-            if(!action.equals(Types.ACTIONS.ACTION_ESCAPE) &&!action.equals(Types.ACTIONS.ACTION_NIL))
+            if(
+//                    !action.equals(Types.ACTIONS.ACTION_ESCAPE) &&
+                        !action.equals(Types.ACTIONS.ACTION_NIL))
             {
                 averageIncreasedReward.put(action,0.0);
                 counter.put(action,0);
                 totalCount = 0;
-                actionsNoEscape.add(action);
+//                actionsNoEscape.add(action);
         //        System.out.println(elapsedTimer.remainingTimeMillis());
             }
         }
@@ -88,7 +86,7 @@ public class Agent extends utils.AbstractPlayer {
         //first step
         if(sso.avatarLastAction.equals(Types.ACTIONS.ACTION_NIL))
         {
-            Types.ACTIONS action= actionsNoEscape.get(random.nextInt(actionsNoEscape.size()));
+            Types.ACTIONS action= sso.availableActions.get(random.nextInt(sso.availableActions.size()));
             prevReward = sso.gameScore;
 //            prevAction = action;
 //
@@ -103,7 +101,7 @@ public class Agent extends utils.AbstractPlayer {
         Types.ACTIONS action;
         if(random.nextDouble() < EPSILON)
         {
-            action= actionsNoEscape.get(random.nextInt(actionsNoEscape.size()));
+            action= sso.availableActions.get(random.nextInt(sso.availableActions.size()));
         }
         else
         {
